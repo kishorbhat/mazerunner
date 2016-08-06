@@ -37,12 +37,29 @@ def init():
             break
 
 
+def isBorderBlock(x, y):
+    width = len(grid[0])
+    height = len(grid)
+
+    if x == 0 or x == width - 1:
+        return True
+    if y == 0 or y == height - 1:
+        return True
+    return False
+
+
 def render():
     screen.clear()
     for row in grid:
         screen.addstr(''.join(row) + '\n')
     screen.refresh()
 
+
+def pushBlock(x, y):
+    if grid[y][x] == ' ':
+        grid[y][x] = '#'
+        return True
+    return False
 
 def updatePlayerPosition(direction):
     oldX = player_pos['x']
@@ -52,32 +69,48 @@ def updatePlayerPosition(direction):
         if grid[oldY][oldX] != '^':
             grid[oldY][oldX] = '^'
             return
-        if grid[player_pos['y']-1][player_pos['x']] == '#':
-            return
+        if grid[oldY-1][oldX] == '#':
+            if not isBorderBlock(oldX, oldY-1):
+                if not pushBlock(oldX, oldY-2):
+                    return
+            else:
+                return
         player_pos['y'] -= 1
 
     elif direction == 'd':
         if grid[oldY][oldX] != 'v':
             grid[oldY][oldX] = 'v'
             return
-        if grid[player_pos['y']+1][player_pos['x']] == '#':
-            return
+        if grid[oldY+1][oldX] == '#':
+            if not isBorderBlock(oldX, oldY+1):
+                if not pushBlock(oldX, oldY+2):
+                    return
+            else:
+                return
         player_pos['y'] += 1
 
     elif direction == 'l':
         if grid[oldY][oldX] != '<':
             grid[oldY][oldX] = '<'
             return
-        if grid[player_pos['y']][player_pos['x']-1] == '#':
-            return
+        if grid[oldY][oldX-1] == '#':
+            if not isBorderBlock(oldX-1, oldY):
+                if not pushBlock(oldX-2, oldY):
+                    return
+            else:
+                return
         player_pos['x'] -= 1
 
     else:
         if grid[oldY][oldX] != '>':
             grid[oldY][oldX] = '>'
             return
-        if grid[player_pos['y']][player_pos['x']+1] == '#':
-            return
+        if grid[oldY][oldX+1] == '#':
+            if not isBorderBlock(oldX+1, oldY):
+                if not pushBlock(oldX+2, oldY):
+                    return
+            else:
+                return
         player_pos['x'] += 1
 
     grid[player_pos['y']][player_pos['x']] = grid[oldY][oldX]
