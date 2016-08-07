@@ -1,2 +1,0 @@
-# mazerunner
-Escape the maze!

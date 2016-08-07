@@ -13,6 +13,7 @@ curses.cbreak()
 screen.keypad(1)
 
 def init():
+    """Read maze from file and place the player in a random spot."""
     with open("./mazes/rakkar16.txt", "r") as f:
         for line in f:
             row = list(line.strip())
@@ -38,6 +39,7 @@ def init():
 
 
 def isBorderBlock(x, y):
+    """Checks if given x, y corresponds to a border block."""
     width = len(grid[0])
     height = len(grid)
 
@@ -49,6 +51,7 @@ def isBorderBlock(x, y):
 
 
 def render():
+    """Clear screen and redraw it."""
     screen.clear()
     for row in grid:
         screen.addstr(''.join(row) + '\n')
@@ -56,12 +59,14 @@ def render():
 
 
 def pushBlock(x, y):
+    """If given x, y is empty, place a block there."""
     if grid[y][x] == ' ':
         grid[y][x] = '#'
         return True
     return False
 
 def updatePlayerPosition(direction):
+    """Updates the grid depending on direction entered by user."""
     oldX = player_pos['x']
     oldY = player_pos['y']
 
@@ -122,6 +127,7 @@ def updatePlayerPosition(direction):
 
 
 def gameLoop():
+    """Main game loop; receives keypresses from user and handles them."""
     while True:
         ch = screen.getch()
         if ch == curses.KEY_UP:
