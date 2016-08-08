@@ -12,8 +12,16 @@ player_pos = {}
 trolls = []
 exit_pos = {}
 screen = curses.initscr()
+curses.start_color()
+curses.use_default_colors()
 curses.noecho()
 curses.cbreak()
+
+curses.init_pair(4, curses.COLOR_RED, curses.COLOR_BLACK) # trolls
+curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE) # walls
+curses.init_pair(2, curses.COLOR_BLUE, curses.COLOR_BLACK) # player
+curses.init_pair(3, curses.COLOR_BLACK, curses.COLOR_GREEN) # exit
+
 screen.keypad(1)
 
 
@@ -65,8 +73,22 @@ def isBorderBlock(x, y):
 def render():
     """Clear screen and redraw it."""
     screen.clear()
-    for row in grid:
-        screen.addstr(''.join(row) + '\n')
+
+    temp = grid
+    for row in temp:
+        for idx, ch in enumerate(row):
+            if ch == '#':
+                screen.addstr(ch, curses.color_pair(1))
+            elif ch == 'T':
+                screen.addstr(ch, curses.color_pair(4))
+            elif ch in ('>', '<', 'v', '^'):
+                screen.addstr(ch, curses.color_pair(2))
+            elif ch == 'X':
+                screen.addstr(ch, curses.color_pair(3))
+            else:
+                screen.addstr(ch)
+            if idx == (len(row) - 1):
+                screen.addstr('\n')
     screen.refresh()
 
 
@@ -130,6 +152,12 @@ def pushBlock(x, y):
     if grid[y][x] == ' ':
         grid[y][x] = '#'
         return True
+    elif grid[y][x] == 'T':
+        for idx, troll in enumerate(trolls):
+            if troll['x'] == x and troll['y'] == y:
+                grid[y][x] = '#'
+                del trolls[idx]
+                return True
     return False
 
 

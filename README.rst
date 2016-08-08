@@ -12,10 +12,10 @@ TODO
   * Ultra basic; need to figure out how to optimize A*/BFS so that running it on each move doesn't take forever.
 
 * [ ] Maze generation
-* [ ] Make the trolls crushable
+* [X] Make the trolls crushable
 * [ ] UTF-8 boxes for walls (instead of '#'s)
 * [ ] Display "Game Over" if player blocks off exit
-* [ ] Colorize
+* [X] Colorize
 * [ ] Try making troll movement time-based
 
 =======
