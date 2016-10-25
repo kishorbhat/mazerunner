@@ -2,21 +2,25 @@
 mazerunner
 ==========
 
-This game is my submission for the `Escape the Trolls <https://www.reddit.com/r/dailyprogrammer/comments/4vrb8n/weekly_25_escape_the_trolls/>`_ challenge over at Reddit.
+Game made for the `Escape the Trolls <https://www.reddit.com/r/dailyprogrammer/comments/4vrb8n/weekly_25_escape_the_trolls/>`_ challenge over at Reddit.
 
-====
-TODO
-====
-* [X] Pathfinding trolls
+=======
+Running
+=======
+.. code:: bash
 
-  * Ultra basic; need to figure out how to optimize A*/BFS so that running it on each move doesn't take forever.
+    $ python mazerunner/mazerunner.py
 
-* [ ] Maze generation
-* [X] Make the trolls crushable
-* [ ] UTF-8 boxes for walls (instead of '#'s)
-* [ ] Display "Game Over" if player blocks off exit
-* [X] Colorize
-* [ ] Try making troll movement time-based
+======
+Legend
+======
+T -- troll
+
+^/>/v/^ -- player
+
+X -- exit
+
+# -- wall
 
 =======
 LICENSE
