@@ -8,6 +8,7 @@ Game made for the `Escape the Trolls <https://www.reddit.com/r/dailyprogrammer/c
 Running
 =======
 Linux: 
+
 .. code:: bash
 
     $ python mazerunner/mazerunner.py
