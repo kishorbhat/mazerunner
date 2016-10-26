@@ -6,6 +6,7 @@ import curses
 import time
 import sys
 import pdb
+import threading
 
 grid = []
 player_pos = {}
@@ -94,57 +95,60 @@ def render():
 
 def moveTrolls():
     """Move trolls towards player."""
-    for troll in trolls:
+    while True:
+        render()
+        time.sleep(1)
+        for troll in trolls:
 
-        grid[troll['y']][troll['x']] = ' '
+            grid[troll['y']][troll['x']] = ' '
 
-        trollDir = ''
-        possibilities = []
-        moved = False
+            trollDir = ''
+            possibilities = []
+            moved = False
 
-        if troll['x'] == player_pos['x'] and troll['y'] == player_pos['y']:
-            print 'YOU WERE EATEN'
-            sys.exit(0)
+            if troll['x'] == player_pos['x'] and troll['y'] == player_pos['y']:
+                print 'YOU WERE EATEN'
+                sys.exit(0)
 
-        if (troll['x'] - player_pos['x']) > 0:
-            trollDir += 'l'
-        elif (troll['x'] - player_pos['x']) < 0:
-            trollDir += 'r'
+            if (troll['x'] - player_pos['x']) > 0:
+                trollDir += 'l'
+            elif (troll['x'] - player_pos['x']) < 0:
+                trollDir += 'r'
 
-        if (troll['y'] - player_pos['y']) > 0:
-            trollDir += 'u'
-        elif (troll['y'] - player_pos['y']) < 0:
-            trollDir += 'd'
+            if (troll['y'] - player_pos['y']) > 0:
+                trollDir += 'u'
+            elif (troll['y'] - player_pos['y']) < 0:
+                trollDir += 'd'
 
-        for ch in trollDir:
-            if ch == 'u':
-                possibilities.append((troll['x'], troll['y'] - 1))
-            elif ch == 'd':
-                possibilities.append((troll['x'], troll['y'] + 1))
-            elif ch == 'l':
-                possibilities.append((troll['x'] - 1, troll['y']))
-            elif ch == 'r':
-                possibilities.append((troll['x'] + 1, troll['y']))
+            for ch in trollDir:
+                if ch == 'u':
+                    possibilities.append((troll['x'], troll['y'] - 1))
+                elif ch == 'd':
+                    possibilities.append((troll['x'], troll['y'] + 1))
+                elif ch == 'l':
+                    possibilities.append((troll['x'] - 1, troll['y']))
+                elif ch == 'r':
+                    possibilities.append((troll['x'] + 1, troll['y']))
 
-        for p in possibilities:
-            if grid[p[1]][p[0]] in (' ', 'v', '>', '<', '^'):
-                troll['x'] = p[0]
-                troll['y'] = p[1]
-                grid[p[1]][p[0]] = 'T'
-                moved = True
-                break
-
-        if not moved:
-            while True:
-                x = troll['x'] + [-1, 0, 1][random.randint(0, 2)]
-                y = troll['y'] + [-1, 0, 1][random.randint(0, 2)]
-
-                if grid[y][x] == ' ':
-                    grid[troll['y']][troll['x']] = ' '
-                    troll['x'] = x
-                    troll['y'] = y
-                    grid[y][x] = 'T'
+            for p in possibilities:
+                if grid[p[1]][p[0]] in (' ', 'v', '>', '<', '^'):
+                    troll['x'] = p[0]
+                    troll['y'] = p[1]
+                    grid[p[1]][p[0]] = 'T'
+                    moved = True
                     break
+
+            if not moved:
+                while True:
+                    x = troll['x'] + [-1, 0, 1][random.randint(0, 2)]
+                    y = troll['y'] + [-1, 0, 1][random.randint(0, 2)]
+
+                    if grid[y][x] == ' ':
+                        grid[troll['y']][troll['x']] = ' '
+                        troll['x'] = x
+                        troll['y'] = y
+                        grid[y][x] = 'T'
+                        break
 
 
 def pushBlock(x, y):
@@ -243,10 +247,12 @@ def gameLoop():
             screen.keypad(0)
             curses.echo()
             sys.exit(0)
-        moveTrolls()
         render()
 
 if __name__ == "__main__":
     init()
+    troll_thread = threading.Thread(target=moveTrolls)
+    troll_thread.daemon = True
+    troll_thread.start()
     render()
     gameLoop()
