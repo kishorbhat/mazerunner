@@ -16,7 +16,7 @@ Linux:
 Windows: ::
 
    The curses module is not supported on Windows machines. 
-   You can install the unoffical binary for curses from `here <http://www.lfd.uci.edu/~gohlke/pythonlibs/#curses>`_.
+   You can install the unoffical binary for curses from http://www.lfd.uci.edu/~gohlke/pythonlibs/#curses.   
 
 ======
 Legend
