@@ -37,7 +37,7 @@ def getEmptySpace(width, height):
 
 def init():
     """Read maze from file and place player and troll in random spots."""
-    with open("mazerunner/mazes/rakkar16.txt", "r") as f:
+    with open("mazes/rakkar16.txt", "r") as f:
         for line in f:
             row = list(line.strip())
             grid.append(row)
