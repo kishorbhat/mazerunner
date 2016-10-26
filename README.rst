@@ -7,9 +7,15 @@ Game made for the `Escape the Trolls <https://www.reddit.com/r/dailyprogrammer/c
 =======
 Running
 =======
+
 .. code:: bash
 
     $ python mazerunner/mazerunner.py
+
+Tips on running in Windows: 
+
+The curses module is not supported on Windows machines. 
+You can install the unoffical binary for curses from http://www.lfd.uci.edu/~gohlke/pythonlibs/#curses.   
 
 ======
 Legend
