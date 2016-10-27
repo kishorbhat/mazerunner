@@ -10,6 +10,8 @@ import pdb
 import os
 import threading
 import atexit
+import locale
+locale.setlocale(locale.LC_ALL,"") # necessary to get curses to work with unicode
 
 grid = []
 player_pos = {}
@@ -21,17 +23,18 @@ curses.use_default_colors()
 curses.noecho()
 curses.cbreak()
 
-curses.init_pair(4, curses.COLOR_RED, curses.COLOR_BLACK) # trolls
+curses.init_pair(4, curses.COLOR_GREEN, curses.COLOR_BLACK) # trolls
 curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE) # walls
-curses.init_pair(2, curses.COLOR_BLUE, curses.COLOR_BLACK) # player
-curses.init_pair(3, curses.COLOR_BLACK, curses.COLOR_GREEN) # exit
+curses.init_pair(2, curses.COLOR_YELLOW, curses.COLOR_BLACK) # player
+curses.init_pair(3, curses.COLOR_MAGENTA, curses.COLOR_WHITE) # exit
+curses.init_pair(5, curses.COLOR_CYAN, curses.COLOR_BLACK) # empty space
 
 # characters to use when drawing
-Troll = 'T'
-Wall  = '#'
-Exit  = 'X'
-Empty = ' '
-Player = ('<', '^', '>', 'v')
+Troll = u'☃' # u'T'
+Wall  = u'░' # u'#'
+Exit  = u'⚙' # u'X'
+Empty = u'∴' # u' '
+Player = (u'◀', u'▲', u'▶', u'▼') #(u'<', u'^', u'>', u'v')
 # indices into Player for different orientations
 LEFT  = 0
 UP    = 1
@@ -74,7 +77,7 @@ def init():
     with open(fname, "r") as f:
         for line in f:
             # replace markers in input for walls/etc with characters used for rendering
-            row = list(line.strip().replace('#', Wall).replace(' ', Empty).replace('X', Exit))
+            row = list(line.strip().decode("utf-8").replace(u'#', Wall).replace(' ', Empty).replace('X', Exit))
             grid.append(row)
 
     width = len(grid[0])
@@ -114,15 +117,15 @@ def render():
     for row in temp:
         for idx, ch in enumerate(row):
             if ch == Wall:
-                screen.addstr(ch, curses.color_pair(1))
+                screen.addstr(ch.encode('utf8'), curses.color_pair(1))
             elif ch == Troll:
-                screen.addstr(ch, curses.color_pair(4))
+                screen.addstr(ch.encode('utf8'), curses.color_pair(4))
             elif ch in Player:
-                screen.addstr(ch, curses.color_pair(2))
+                screen.addstr(ch.encode('utf8'), curses.color_pair(2))
             elif ch == Exit:
-                screen.addstr(ch, curses.color_pair(3))
+                screen.addstr(ch.encode('utf8'), curses.color_pair(3))
             else:
-                screen.addstr(ch)
+                screen.addstr(ch.encode('utf8'), curses.color_pair(5) | curses.A_DIM)
             if idx == (len(row) - 1):
                 screen.addstr('\n')
     screen.refresh()
