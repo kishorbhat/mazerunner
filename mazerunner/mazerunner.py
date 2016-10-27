@@ -6,7 +6,9 @@ import curses
 import time
 import sys
 import pdb
+import os
 import threading
+import atexit
 
 grid = []
 player_pos = {}
@@ -24,7 +26,10 @@ curses.init_pair(2, curses.COLOR_BLUE, curses.COLOR_BLACK) # player
 curses.init_pair(3, curses.COLOR_BLACK, curses.COLOR_GREEN) # exit
 
 screen.keypad(1)
-
+def doexit():
+    from subprocess import call
+    call(["stty", "sane"])
+atexit.register(doexit)
 
 def getEmptySpace(width, height):
     """Returns a random empty spot in the maze."""
@@ -37,7 +42,17 @@ def getEmptySpace(width, height):
 
 def init():
     """Read maze from file and place player and troll in random spots."""
-    with open("mazerunner/mazes/rakkar16.txt", "r") as f:
+    # default maze file
+    fname = "rakkar16.txt"
+    argc = len(sys.argv)
+    if argc > 1:
+        # use the specified maze name
+        fname = sys.argv[1]
+    fname = "mazerunner/mazes/"+fname
+    if not os.path.exists(fname):
+        sys.exit("Maze file does not exist")
+    # perhaps use a generated maze here
+    with open(fname, "r") as f:
         for line in f:
             row = list(line.strip())
             grid.append(row)
@@ -107,7 +122,7 @@ def moveTrolls():
             moved = False
 
             if troll['x'] == player_pos['x'] and troll['y'] == player_pos['y']:
-                print 'YOU WERE EATEN'
+                print('YOU WERE EATEN')
                 sys.exit(0)
 
             if (troll['x'] - player_pos['x']) > 0:
@@ -171,7 +186,7 @@ def updatePlayerPosition(direction):
     oldY = player_pos['y']
 
     if grid[oldY][oldX] == 'T':
-        print 'YOU WERE EATEN'
+        print('YOU WERE EATEN')
         sys.exit(0)
 
     if direction == 'u':
@@ -226,7 +241,7 @@ def updatePlayerPosition(direction):
     grid[oldY][oldX] = ' '
 
     if player_pos['y'] == exit_pos['y'] and player_pos['x'] == exit_pos['x']:
-        print 'VICTORY'
+        print('VICTORY')
         sys.exit(0)
 
 
