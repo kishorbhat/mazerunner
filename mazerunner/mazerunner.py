@@ -240,6 +240,13 @@ def updatePlayerPosition(direction):
     grid[player_pos['y']][player_pos['x']] = grid[oldY][oldX]
     grid[oldY][oldX] = ' '
 
+    for troll in trolls:
+        if player_pos['y'] == troll['y'] and player_pos['x'] == troll['x']:
+            grid[player_pos['y']][player_pos['x']] = 'T'
+            render()
+            print('YOU WERE EATEN')
+            sys.exit(0)
+
     if player_pos['y'] == exit_pos['y'] and player_pos['x'] == exit_pos['x']:
         print('VICTORY')
         sys.exit(0)
