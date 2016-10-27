@@ -1,6 +1,7 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
 
+import signal
 import random
 import curses
 import time
@@ -30,6 +31,12 @@ def doexit():
     from subprocess import call
     call(["stty", "sane"])
 atexit.register(doexit)
+
+def sig_handler(signal, frame):
+    curses.nocbreak()
+    screen.keypad(0)
+    curses.echo()
+    sys.exit(0)
 
 def getEmptySpace(width, height):
     """Returns a random empty spot in the maze."""
@@ -272,6 +279,7 @@ def gameLoop():
         render()
 
 if __name__ == "__main__":
+    signal.signal(signal.SIGINT, sig_handler)
     init()
     troll_thread = threading.Thread(target=moveTrolls)
     troll_thread.daemon = True
