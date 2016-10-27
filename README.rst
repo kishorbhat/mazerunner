@@ -13,11 +13,11 @@ Running
 
     $ python mazerunner/mazerunner.py
 
+**Note**: your terminal window must be large enough to accommodate the entire maze. Strange things happen otherwise.
+
 Tips on running in Windows: 
-
-The curses module is not supported on Windows machines. 
-You can install the unofficial binary for curses from http://www.lfd.uci.edu/~gohlke/pythonlibs/#curses.
-
+    The curses module is not supported on Windows machines. 
+    You can install the unofficial binary for curses from http://www.lfd.uci.edu/~gohlke/pythonlibs/#curses.
 
 ==============
 Generate Mazes
