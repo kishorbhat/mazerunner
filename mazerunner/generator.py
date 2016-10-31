@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
+"""
+Usage:
+  generator.py -o <filename> size <width> <height>
+"""
 from __future__ import print_function
 import numpy as np
-
+from docopt import docopt
 
 class Generator:
     def __init__(self, board_dimensions=(33, 33)):
@@ -115,11 +119,10 @@ def print_maze(maze, out=None):
 if __name__ == "__main__":
     # generate a random maze and print it
     import sys
-    if len(sys.argv) != 4:
-        sys.exit("Usage is: generator.py output_file width height")
-    fname = sys.argv[1]
-    width = int(sys.argv[2])
-    height = int(sys.argv[3])
+    arguments = docopt(__doc__)
+    fname = arguments["<filename>"]
+    width = int(arguments["<width>"])
+    height = int(arguments["<height>"])
     gen = Generator((width, height))
     maze = gen.gen()
 

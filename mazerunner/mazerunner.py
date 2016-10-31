@@ -1,6 +1,9 @@
 #!/usr/local/bin/python
 # -*- coding: utf-8 -*-
-
+"""
+Usage:
+  mazerunner.py -m <filename>
+"""
 import signal
 import random
 import curses
@@ -11,6 +14,7 @@ import os
 import threading
 import atexit
 import locale
+from docopt import docopt
 locale.setlocale(locale.LC_ALL,"") # necessary to get curses to work with unicode
 
 grid = []
@@ -62,14 +66,8 @@ def getEmptySpace(width, height):
             return x, y
 
 
-def init():
+def init(fname):
     """Read maze from file and place player and troll in random spots."""
-    # default maze file
-    fname = "rakkar16.txt"
-    argc = len(sys.argv)
-    if argc > 1:
-        # use the specified maze name
-        fname = sys.argv[1]
     fname = "mazerunner/mazes/"+fname
     if not os.path.exists(fname):
         sys.exit("Maze file does not exist")
@@ -288,8 +286,10 @@ def gameLoop():
         render()
 
 if __name__ == "__main__":
+    arguments = docopt(__doc__)
     signal.signal(signal.SIGINT, sig_handler)
-    init()
+    print(arguments['<filename>'])
+    init(arguments['<filename>'])
     troll_thread = threading.Thread(target=moveTrolls)
     troll_thread.daemon = True
     troll_thread.start()
