@@ -11,7 +11,7 @@ If you are running mazerunner for the first time. You need to install docopt.
 
 .. code:: bash
 
-    $ pip intall docopt
+    $ pip install docopt
 
 .. code:: bash
 
