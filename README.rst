@@ -4,14 +4,17 @@ mazerunner
 
 Game made for the `Escape the Trolls <https://www.reddit.com/r/dailyprogrammer/comments/4vrb8n/weekly_25_escape_the_trolls/>`_ challenge over at Reddit.
 
-=======
-Running
-=======
-If you are running mazerunner for the first time. You need to install docopt.
+============
+Requirements
+============
 
 .. code:: bash
 
-    $ pip install docopt
+    $ pip install -r requirements.txt
+
+=======
+Running
+=======
 
 .. code:: bash
 
@@ -26,12 +29,6 @@ Tips on running in Windows:
 ==============
 Generate Mazes
 ==============
-To generate mazes, you will need to have numpy installed:
-
-.. code:: bash
-
-    $ pip install numpy
-
 
 You can generate your own mazes using:
 
