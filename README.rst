@@ -7,11 +7,15 @@ Game made for the `Escape the Trolls <https://www.reddit.com/r/dailyprogrammer/c
 =======
 Running
 =======
-
+If you are running mazerunner for the first time. You need to install docopt.
 
 .. code:: bash
 
-    $ python mazerunner/mazerunner.py
+    $ pip intall docopt
+
+.. code:: bash
+
+    $ python mazerunner/mazerunner.py -m mazename.txt
 
 **Note**: your terminal window must be large enough to accommodate the entire maze. Strange things happen otherwise.
 
@@ -33,8 +37,8 @@ You can generate your own mazes using:
 
 .. code:: bash
 
-    $ python mazerunner/generate.py mazename.txt width height
-
+    $ python mazerunner/generator.py -o mazename.txt size <width> <height> 
+    
 
 ======
 Legend
